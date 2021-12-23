@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+        }
+
+        html,
+        body {
+            background-color: black;
+            overflow: hidden;
+            height: 100%;
+            font-family: 'Luckiest Guy',微軟正黑體, cursive;
+            font-size: 1.5rem;
+            
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        table {
+            position: absolute;
+            width: 430px;
+            bottom: 80px;
+            left: 25px;
+        }
+
+        table tr:nth-child(odd) {
+            height: 70px;
+        }
+
+        table tr:nth-child(even) {
+            height: 30px;
+        }
+
+        table tr:nth-child(2) {
+            height: 50px;
+        }
+
+        table tr:nth-child(11) {
+            height: 40px;
+        }
+
+        .window {
+            background: url(./window.png);
+        }
+
+        .red {
+            background: url(./guy01.gif);
+        }
+
+        .blue {
+            background: url(./guyXX.gif);
+        }
+        .sleep01{
+            background: url(./sleep.gif);
+        }
+        .sleep02{
+            background: url(./sleep-up.gif);
+        }
+
+
+
+
+        #start {
+            width: 300px;
+            height: 80px;
+            background: black;
+            color: gold;
+            border: 5px solid gold;
+            font-size: 1.5rem;
+            border-radius: 10px;
+        margin: 50px 0;
+            font-family: 'Luckiest Guy',微軟正黑體, cursive;
+        }
+
+        #start:hover {
+            background: gold;
+            color: black;
+            border: 2px solid gold;
+            font-size: 2rem;
+            border-radius: 10px;
+            margin: 50px 0;
+        }
+
+        .illustrate {
+            float: left;
+            width: 300px;
+            text-align: center;
+            z-index: 999;
+            position: relative;
+            margin: 0 20px;
+        }
+
+        .right {
+            float: right;
+            position: relative;
+        }
+
+        p {
+            color: white;
+            text-align: left;
+        }
+
+        #black {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            z-index: 999;
+            transition: transform 0.5s;
+            background: none;
+            pointer-events: none;
+            position: absolute;
+            
+        }
+
+        #box{
+            width: 1015px;
+            height: 876px;
+            position: absolute;
+        }
+        .aaa{
+            display: flex;
+            flex-direction: row;
+            font-size: 2rem;
+            margin-top: 20px;
+            
+        }
+        .aaa img{
+            margin: 0 50px;
+        }       
+    </style>
+</head>
+
+<body>
+    
+    <div class="illustrate">
+        <input type="button" value="start!!!" id="start">
+        <p>
+            Current score:<span id="score">0</span>
+            <br><br>
+            Winner:<span id="highname">Who??</span>
+            Score:<span id="highscore">0</span>
+        </p>
+        <div class="aaa"> <img src="./guy01.gif" ><p>+ 1 </p></div>
+        <div class="aaa"><img src="./sleep.gif" ><p>- 1 </p></div>
+
+    </div>
+    <div class="right">
+        <div id="box">
+            <div id="black"></div>
+        </div>
+        <img style="border-radius: 5%;" src="./bg02-01.png">
+        <table id="game">
+            <tr>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td rowspan="11"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td rowspan="11"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+
+
+            </tr>
+            <tr>
+                <td colspan="8" class="box"></td>
+
+            </tr>
+            <tr>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+
+            </tr>
+            <tr>
+                <td colspan="8"></td>
+
+            </tr>
+            <tr>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+
+            </tr>
+            <tr>
+                <td colspan="8"></td>
+
+            </tr>
+            <tr>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+
+
+            </tr>
+            <tr>
+                <td colspan="8"></td>
+
+
+            </tr>
+            <tr>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+                <td class="window"></td>
+
+
+            </tr>
+
+        </table>
+    </div>
+
+    <script src="./jquery-3.6.0.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        const windows = document.getElementsByClassName('window')
+        const start = document.getElementById('start')
+        const scoreText = document.getElementById('score')
+        const highnameText = document.getElementById('highname')
+        const highscoreText = document.getElementById('highscore')
+        const eye = document.getElementById('black');
+        document.onmousemove = (e) => {
+            let x1 = e.clientX;
+            let y1 = e.clientY;
+            eye.style.marginLeft = (x1 - 700) + 'px';
+            eye.style.marginTop = (y1 - 150) + 'px';
+
+        }
+        const high = { score: 0, name: 'Who??' }
+        let score = 0
+        let timer = 0
+        const storage = JSON.parse(localStorage.getItem('dadishu'))
+        if (storage) {
+            high.name = storage.name
+            high.score = storage.score
+            highnameText.innerText = high.name
+            highscoreText.innerText = high.score
+        }
+
+        Swal.fire({
+    title: '幫助夢遊先生',
+    text: '夢遊先生不小心夢遊到黑道的巢穴,射殺黑道們幫助他逃離這裡,小心!!不要誤殺錯人喔!',
+    imageUrl: './d2375030.gif',
+    imageWidth: 590,
+    imageHeight: 400,
+    imageAlt: 'Custom image',
+})
+        start.onclick = () => {
+            start.disabled = true
+            score = 0
+            scoreText.innerText = score
+            timer = setInterval(game, 2000)
+            game()
+            setTimeout(end, 10 * 2000)
+            $('#black').css('box-shadow', ` 0 0 10px 10px #000 inset, 0 0 10px 3000px #000`)
+
+        }
+        const game = () => {
+            for (const window of windows) {
+                window.classList.remove('red')
+                window.classList.remove('blue')
+                window.classList.remove('sleep01')
+                window.classList.remove('sleep02')
+            }
+            for (let i = 0; i < 2; i++) {
+                windows[Math.round(Math.random() * (windows.length - 1))].classList.add('red')
+            }
+            for (let i = 0; i < 1; i++) {
+                windows[Math.round(Math.random() * (windows.length - 1))].classList.add('sleep01')
+            }
+        }
+        const end = () => {
+            clearInterval(timer)
+            for (const window of windows) {
+                window.classList.remove('red')
+                window.classList.remove('blue')
+                window.classList.remove('sleep01')
+                window.classList.remove('sleep02')
+            }
+            $('#black').css('box-shadow', ``)
+            start.disabled = false
+            
+            
+            Swal.fire({
+    title: '遊戲結束',
+    text: `你得到 ${score} 分`,
+    imageUrl: './6c278ae283c042e8ba986aed73318e79.gif',
+    imageWidth: 590,
+    imageHeight: 400,
+    imageAlt: 'Custom image',
+})
+            if (score > high.score) {
+                const input = prompt('最高分，請輸入名字')
+                Swal.fire({
+                title: '最高分，請輸入名字',
+                input: 'text',
+})
+                high.score = score
+                high.name = input || 'Who??'
+                highnameText.innerText = high.name
+                highscoreText.innerText = high.score
+                localStorage.setItem('dadishu', JSON.stringify(high))
+
+                
+            }
+        }
+        for (const window of windows) {
+            window.onclick = () => {
+                if (window.classList.contains('red')) {
+                    window.classList.replace('red', 'blue')
+                    score++
+                }else if (window.classList.contains('sleep01')) {
+                    window.classList.replace('sleep01', 'sleep02')
+                    score--
+                }
+                    scoreText.innerText = score
+                    
+                }
+            }
+        
+    </script>
+</body>
+
+</html>
